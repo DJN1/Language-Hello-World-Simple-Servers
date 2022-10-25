@@ -2,13 +2,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "encoding/json"
 )
-
-type Response struct {
-    Request string
-    Message string
-}
 
 
 func main() {
@@ -20,5 +14,6 @@ func main() {
 }
 
 func requestHandler(w http.ResponseWriter, r *http.Request) {
-    json.NewEncoder(w).Encode(Response{Request: fmt.Sprintf("%v %v", r.Method, r.URL), Message: "hello from Go"})
+    w.Header().Set("Content-Type", "application/json")
+    fmt.Fprintln(w, "{\"request\": \"" + fmt.Sprintf("%v %v", r.Method, r.URL) + "\", \"message\": \"hello from go\"}")
 }
